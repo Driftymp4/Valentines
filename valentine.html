@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en"><!-- Version 2.0 -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💌 tomybunnyria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 25%, #ce93d8 50%, #ba68c8 75%, #ab47bc 100%);
+            font-family: "Pixelify Sans", cursive, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        body::before {
+            content: "💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜";
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            white-space: nowrap;
+            animation: float 25s linear infinite;
+            top: 20%;
+        }
+
+        body::after {
+            content: "💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜 💜";
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            white-space: nowrap;
+            animation: float 20s linear infinite reverse;
+            bottom: 20%;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Envelope Screen */
+        #envelope-container {
+            text-align: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        #envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        #envelope {
+            width: 220px;
+            height: 220px;
+            animation: pulse 1.5s infinite;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 30px rgba(123, 31, 162, 0.3));
+        }
+
+        #envelope-container p {
+            font-size: 2.5rem;
+            color: #7b1fa2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ba68c8, 0 0 20px #ba68c8; }
+            to { text-shadow: 0 0 20px #7b1fa2, 0 0 30px #7b1fa2; }
+        }
+
+        #letter-container {
+            display: none;
+            position: fixed;
+            inset: 0;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .letter-window {
+            width: 90vw;
+            max-width: 800px;
+            min-height: 600px;
+            padding: 60px 40px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border: 8px solid #ba68c8;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(123, 31, 162, 0.4);
+            gap: 20px;
+            transform: scale(1.2);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
+            position: relative;
+        }
+
+        .letter-window::before {
+            content: '💌';
+            position: absolute;
+            top: -40px;
+            font-size: 4rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .letter-window.open {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #7b1fa2;
+            text-shadow: 2px 2px 0 #ce93d8;
+            letter-spacing: 2px;
+        }
+
+        /* Cat */
+        .cat {
+            width: 280px;
+            margin: 10px 0;
+            transition: width 0.4s ease;
+            border-radius: 20px;
+            filter: drop-shadow(0 8px 16px rgba(123, 31, 162, 0.3));
+        }
+
+        .letter-window.final .cat {
+            width: 200px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .no-wrapper {
+            position: relative;
+        }
+
+        .btn {
+            width: 140px;
+            height: auto;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .yes-btn {
+            position: relative;
+            z-index: 2;
+            transform-origin: center center;
+        }
+
+        .no-btn {
+            z-index: 1;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .final-text {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            text-align: center;
+            display: inline-block;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #fff 0%, #f3e5f5 100%);
+            border: 3px solid #ba68c8;
+            border-radius: 20px;
+            color: #7b1fa2;
+            box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Simple envelope SVG */
+        .envelope-svg {
+            width: 220px;
+            height: 220px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Envelope Screen -->
+    <div id="envelope-container">
+        <svg class="envelope-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="envelopeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ba68c8;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#7b1fa2;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <!-- Envelope body -->
+            <rect x="10" y="30" width="180" height="110" fill="url(#envelopeGradient)" stroke="#7b1fa2" stroke-width="3" rx="5"/>
+            <!-- Envelope flap -->
+            <path d="M 10 30 L 100 90 L 190 30" fill="#ce93d8" stroke="#7b1fa2" stroke-width="3"/>
+            <!-- Heart seal -->
+            <circle cx="100" cy="90" r="15" fill="#fff"/>
+            <text x="100" y="98" font-size="20" text-anchor="middle" fill="#7b1fa2">💜</text>
+        </svg>
+        <p>♡ Click to Open ♡</p>
+    </div>
+
+    <!-- Letter Screen -->
+    <div id="letter-container">
+        <div class="letter-window">
+            <h1 id="letter-title">Will you be my Valentine? 💘</h1>
+
+            <!-- Dedication text -->
+            <div style="font-size: 2rem; color: #7b1fa2; margin: 30px 0; text-align: center; font-weight: bold;">
+                To: AngelBunny 🐰<br>
+                From: GabGabBear 🐻
+            </div>
+
+            <div class="buttons" id="letter-buttons">
+                <!-- Yes button -->
+                <svg class="btn yes-btn" viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="50" fill="#50C878" rx="10"/>
+                    <text x="60" y="32" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">YES! ✓</text>
+                </svg>
+
+                <div class="no-wrapper">
+                    <!-- No button -->
+                    <svg class="btn no-btn" viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="120" height="50" fill="#ff6b6b" rx="10"/>
+                        <text x="60" y="32" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">No ✗</text>
+                    </svg>
+                </div>
+            </div>
+
+            <p id="final-text" class="final-text" style="display: none">
+                <strong>Happy Valentines my love! 💜</strong><br><br>
+                I miss you so much. I hope you are well.<br>
+                This will serve as my letter you hehe.<br>
+                I love you so much baby.<br>
+                Can't wait to see you next year my love!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const envelope = document.getElementById("envelope-container");
+        const letter = document.getElementById("letter-container");
+        const noBtn = document.querySelector(".no-btn");
+        const yesBtn = document.querySelector(".yes-btn");
+
+        const title = document.getElementById("letter-title");
+        const catImg = document.getElementById("letter-cat");
+        const buttons = document.getElementById("letter-buttons");
+        const finalText = document.getElementById("final-text");
+
+        // Click Envelope
+        envelope.addEventListener("click", () => {
+            envelope.style.display = "none";
+            letter.style.display = "flex";
+
+            setTimeout(() => {
+                document.querySelector(".letter-window").classList.add("open");
+            }, 50);
+        });
+
+        // Logic to grow YES button when NO is hovered
+        let yesScale = 1;
+        
+        noBtn.addEventListener("mouseover", () => {
+            // Make YES button bigger each time
+            yesScale += 0.2;
+            yesBtn.style.transition = "transform 0.3s ease";
+            yesBtn.style.transform = `scale(${yesScale})`;
+        });
+
+        // YES is clicked
+        yesBtn.addEventListener("click", () => {
+            title.textContent = "Yippeeee! 🎉";
+
+            document.querySelector(".letter-window").classList.add("final");
+
+            buttons.style.display = "none";
+            finalText.style.display = "block";
+
+            // Add confetti effect
+            createConfetti();
+        });
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#ba68c8', '#7b1fa2', '#ce93d8', '#ab47bc', '#9c27b0'];
+            const emojis = ['💜', '💜', '💜', '💜', '🐾', '🕊', '🌸', '✨'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = '2rem';
+                    confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    confetti.style.zIndex = '1000';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.animation = `fall ${2 + Math.random() * 2}s linear`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // Add fall animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
